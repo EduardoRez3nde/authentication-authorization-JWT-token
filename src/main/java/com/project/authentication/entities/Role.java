@@ -3,6 +3,7 @@ package com.project.authentication.entities;
 import com.project.authentication.entities.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -13,8 +14,8 @@ import java.util.UUID;
 @Setter
 @Getter
 @ToString
-@EqualsAndHashCode
-public class Role {
+@EqualsAndHashCode(of = "id")
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,5 +26,10 @@ public class Role {
     private RoleType role;
 
     public Role() { }
+
+    @Override
+    public String getAuthority() {
+        return role.name();
+    }
 }
 
