@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    container_name: authenticationUser_postgresql
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: user_authentication
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+volumes:
+  postgres_data:
+networks:
+  backend:
+    driver: bridge
