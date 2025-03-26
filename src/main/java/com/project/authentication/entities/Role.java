@@ -1,19 +1,17 @@
 package com.project.authentication.entities;
 
-import com.project.authentication.entities.enums.RoleType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_role")
-@AllArgsConstructor
 @Setter
 @Getter
-@ToString
 @EqualsAndHashCode(of = "id")
 public class Role implements GrantedAuthority {
 
@@ -21,15 +19,17 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RoleType role;
+    private String authority;
 
-    public Role() { }
+    public Role() {}
 
-    @Override
-    public String getAuthority() {
-        return role.name();
+    public Role(Role role) {
+        this.id = role.getId();
+        this.authority = role.getAuthority();
+    }
+
+    public Role(String authority) {
+        this.authority = authority;
     }
 }
-

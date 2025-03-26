@@ -1,4 +1,4 @@
-package com.project.authentication.dtos.exceptionsDTO;
+package com.project.authentication.dtos.exceptions;
 
 import java.util.Objects;
 
