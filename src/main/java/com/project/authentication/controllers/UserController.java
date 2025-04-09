@@ -27,12 +27,4 @@ public class UserController {
         Page<UserRoleDTO> result = userService.findAll(pageable);
         return ResponseEntity.ok(result);
     }
-
-    @PostMapping
-    public ResponseEntity<UserRoleDTO> insert(@Valid @RequestBody RegisterDTO dto) {
-        UserRoleDTO dtoResult = userService.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(dtoResult.id()).toUri();
-        return ResponseEntity.created(uri).body(dtoResult);
-    }
 }

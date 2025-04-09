@@ -39,19 +39,4 @@ public class UserService {
         Page<User> result = userRepository.findAll(pageable);
         return result.map(UserRoleDTO::from);
     }
-
-    @Transactional
-    public UserRoleDTO insert(RegisterDTO dto) {
-
-        User user = new User();
-        user.setUsername(dto.username());
-        user.setPassword(passwordEncoder.encode(dto.password()));
-
-        for (RoleDTO role : dto.roles()) {
-            Role r = roleRepository.getReferenceById(UUID.fromString(role.id()));
-            user.getRoles().add(new Role(r));
-        }
-        user = userRepository.save(user);
-        return UserRoleDTO.from(user);
-    }
 }

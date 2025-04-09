@@ -13,14 +13,4 @@ public class AuthenticationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationApplication.class, args);
 	}
-
-	@Bean
-	CommandLineRunner initDatabase(RoleRepository roleRepository) {
-		return args -> {
-			if (roleRepository.count() == 0) {
-				roleRepository.save(new Role("ROLE_ADMIN"));
-				roleRepository.save(new Role("ROLE_USER"));
-			}
-		};
-	}
 }
