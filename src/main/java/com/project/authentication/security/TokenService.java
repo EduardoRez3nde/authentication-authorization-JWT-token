@@ -2,9 +2,8 @@ package com.project.authentication.security;
 
 
 import com.project.authentication.entities.User;
+import com.project.authentication.security.keyGenerator.RsaKeyGenerator;
 import org.jose4j.jwa.AlgorithmConstraints;
-import org.jose4j.jwk.RsaJsonWebKey;
-import org.jose4j.jwk.RsaJwkGenerator;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
@@ -22,20 +21,10 @@ public class TokenService {
     private final static String ISSUER = "authentication.service";
     private final static String AUDIENCE = "my-client";
 
-    private final RsaJsonWebKey rsa;
+    private final RsaKeyGenerator rsa;
 
-    public TokenService() {
-        this.rsa = generateRsaKey();
-    }
-
-    private RsaJsonWebKey generateRsaKey() {
-        try {
-            RsaJsonWebKey keyPair = RsaJwkGenerator.generateJwk(2048);
-            keyPair.setKeyId("k1");
-            return keyPair;
-        } catch(JoseException e) {
-            throw new RuntimeException("Erro ao gerar a chave RSA", e);
-        }
+    public TokenService(RsaKeyGenerator rsaKeyGenerator) {
+        this.rsa = rsaKeyGenerator;
     }
 
     private JwtClaims createClaims(User user) {
