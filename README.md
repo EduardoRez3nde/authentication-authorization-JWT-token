@@ -1,6 +1,7 @@
+
 # Autenticação e Autorização com JWT
 
-Este projeto demonstra a implementação de autenticação e autorização utilizando JSON Web Tokens (JWT) em uma aplicação Java com Spring Boot.
+Este projeto demonstra a implementação de autenticação e autorização utilizando JSON Web Tokens (JWT) em uma aplicação Java com Spring Boot. Utilizando a biblioteca JOSE4J.
 
 ## Funcionalidades
 
@@ -13,46 +14,84 @@ Este projeto demonstra a implementação de autenticação e autorização utili
 - **Java**: Linguagem principal utilizada no desenvolvimento.
 - **Spring Boot**: Framework para facilitar a configuração e o desenvolvimento da aplicação.
 - **Spring Security**: Módulo do Spring utilizado para configurar a segurança da aplicação.
-- **JWT (JSON Web Token)- (JOSE4J)**: Utilizado para a autenticação e autorização de usuários.
+- **JWT (JSON Web Tokens)**: Para autenticação e autorização baseada em tokens.
+- **RSA**: Algoritmo de criptografia assimétrica utilizado para assinar e verificar os tokens JWT.
 
 ## Estrutura do Projeto
 
-O projeto segue a estrutura padrão do Spring Boot, com diretórios para controladores, serviços e repositórios. A configuração de segurança está localizada no pacote correspondente, onde são definidos os filtros e as regras de autorização.
+O projeto está organizado da seguinte forma:
 
-## Configuração e Execução
+```
 
-1. **Clonar o Repositório**:
+authentication-authorization-JWT-token/
+├── keys/
+│   ├── private.pem
+│   └── public.pem
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── example/
+│                   └── auth/
+│                       ├── controller/
+│                       ├── model/
+│                       ├── security/
+│                       │   └── RsaKeyGenerator.java
+│                       └── service/
+├── build.gradle
+├── docker-compose.yml
+└── README.md
+```
+
+## Classe RsaKeyGenerator
+
+A classe `RsaKeyGenerator` é responsável por gerar e gerenciar o par de chaves RSA utilizadas na assinatura e verificação dos tokens JWT.
+
+### Funcionalidades
+
+- **Geração de Chaves**: Gera um par de chaves RSA (privada e pública) com um tamanho de 2048 bits.
+- **Armazenamento**: Salva as chaves geradas nos arquivos `private.pem` e `public.pem` dentro do diretório `keys/`.
+- **Leitura de Chaves**: Fornece métodos para ler as chaves a partir dos arquivos PEM, permitindo sua utilização na assinatura e verificação dos tokens.
+
+
+É importante garantir que os arquivos `private.pem` e `public.pem` estejam presentes no diretório `keys/` antes de iniciar a aplicação. Caso contrário, a classe `RsaKeyGenerator` pode ser utilizada para gerar as chaves necessárias.
+
+**Obs:** Somente execute a aplicação e as chaves serão criadas automaticamente.
+
+## Executando a Aplicação
+
+1. **Clone o repositório**:
 
    ```bash
    git clone https://github.com/EduardoRez3nde/authentication-authorization-JWT-token.git
    ```
-
 
-2. **Navegar para o Diretório do Projeto**:
+2. **Navegue até o diretório do projeto**:
 
    ```bash
    cd authentication-authorization-JWT-token
    ```
-
-
-3. **Construir o Projeto**:
-
-   ```bash
-   ./gradlew build
-   ```
-
-
-4. **Executar a Aplicação**:
+   
+3. **Compile e execute a aplicação**:
 
    ```bash
    ./gradlew bootRun
    ```
-
 
-A aplicação estará disponível em `http://localhost:8080`.
+4. **Acesse a aplicação**:
 
-## Endpoints Principais
+   A aplicação estará disponível em `http://localhost:8080`.
 
-- **POST /auth/register**: Registra um novo usuário.
-- **POST /auth/login**: Autentica um usuário e retorna um token JWT.
-- **GET /api/protected**: Exemplo de endpoint protegido que requer um token JWT válido.
+## Endpoints Disponíveis
+
+- `POST /register`: Registro de um novo usuário.
+- `POST /login`: Autenticação de usuário e geração do token JWT.
+- `GET /protected`: Endpoint protegido que requer um token JWT válido.
+
+## Considerações Finais
+
+Este projeto serve como uma base para aplicações que necessitam de autenticação e autorização utilizando JWT. A utilização de chaves RSA proporciona uma camada adicional de segurança, garantindo a integridade e autenticidade dos tokens gerados.
+
+Para ambientes de produção, é recomendável proteger os arquivos de chave com permissões adequadas e considerar o uso de um gerenciador de segredos para armazená-los de forma segura.
+
+---
